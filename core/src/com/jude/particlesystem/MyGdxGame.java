@@ -88,7 +88,17 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		shapes.end();
 
 		//logical stuff
+		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
+		{
+			bunches.add(new Bunch(tp.x, tp.y ,world));
+		}
 
+		//clean up
+		for(Bunch b: bunches)
+		{
+			b.clean();
+		}
+		
 		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 	}
 	
