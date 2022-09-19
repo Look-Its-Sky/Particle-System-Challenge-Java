@@ -2,6 +2,7 @@ package com.jude.particlesystem;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Bunch
@@ -16,12 +17,10 @@ public class Bunch
         float offset = -initParticles/10;
         for(int i = 0; i <= initParticles; i++)
         {
-            arr.add(new Particle(offset, midY, world));
+            arr.add(new Particle(offset + midX, midY, world));
         }
 
         isDead = false;
-
-        System.out.println("(" + midX + ", " + midY + ")");
     }
 
     public ArrayList<Particle> getArr()

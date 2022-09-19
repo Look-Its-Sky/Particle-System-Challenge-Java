@@ -88,7 +88,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		shapes.end();
 
 		//logical stuff
-		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT))
+		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && Gdx.graphics.getDeltaTime() < 10)
 		{
 			bunches.add(new Bunch(tp.x, tp.y ,world));
 		}
@@ -96,9 +96,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		//clean up
 		for(Bunch b: bunches)
 		{
-			b.clean();
+			//b.clean();
 		}
-		
+
 		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 	}
 	
