@@ -37,10 +37,11 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 	//mouse stuff
 	Vector3 tp;
 	Boolean dragging;
+	Boolean holding;
 	final boolean mouseDebug = false;
 
 	//physics
-	final Vector2 gravity = new Vector2(0f, -9.81f);
+	final Vector2 gravity = new Vector2(0f, -100f);
 	World world;
 
 	//actual objects
@@ -59,6 +60,7 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		//mouse input
 		shapes = new ShapeRenderer();
 		shapes.setColor(Color.BLACK);
+		holding = false;
 		tp = new Vector3();
 		Gdx.input.setInputProcessor(this);
 
@@ -87,8 +89,8 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		}
 		shapes.end();
 
-		//logical stuff
-		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && Gdx.graphics.getDeltaTime() < 10)
+		//logic
+		if(Gdx.graphics.getDeltaTime() < 10 && holding)
 		{
 			bunches.add(new Bunch(tp.x, tp.y ,world));
 		}
@@ -147,18 +149,27 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		if(button != Input.Buttons.LEFT || pointer > 0) return false;
 		camera.unproject(tp.set(screenX, screenY, 0));
 		dragging = true;
+		holding = true;
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{	
+		holding = false;
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{	
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Gdx.graphics.getDeltaTime() < 10)
+		{
+			camera.unproject(tp.set(screenX, screenY, 0));
+			dragging = true;
+			bunches.add(new Bunch(tp.x, tp.y ,world));
+			return true;
+		}
 		return false;
 	}
 
@@ -172,5 +183,11 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 	public boolean scrolled(float amountX, float amountY) 
 	{ 
 		return false;
+	}
+
+	@Override
+	public void resize(int width, int height)
+	{
+		viewport.update(width, height);
 	}
 }
