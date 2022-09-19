@@ -1,5 +1,7 @@
 package com.jude.particlesystem;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -41,9 +43,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 	final Vector2 gravity = new Vector2(0f, -9.81f);
 	World world;
 
-	//test objects
-	Particle particle;
-	
+	//actual objects
+	ArrayList<Bunch> bunches;
+
 	@Override
 	public void create ()
 	{
@@ -63,25 +65,47 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 		//physics
 		world = new World(gravity, true);
 
-		//test objects
-		particle = new Particle(100, 100);
+		//actual objects
+		bunches = new ArrayList<Bunch>();
 	}
 
 	@Override
 	public void render ()
 	{
+		//graphical stuff
 		ScreenUtils.clear(1, 1, 1, 1);
-		
+
 		shapes.setProjectionMatrix(camera.combined);
 		shapes.begin(ShapeRenderer.ShapeType.Filled);
-		
-		shapes.setColor(Color.BLUE);
-		shapes.circle(pos.x, pos.y, 0.25f, 16);
 
-		if(mouseDebug)shapes.circle(tp.x, tp.y, 0.1f, 500);
+		renderBunches();
+
+		if(mouseDebug) 
+		{
+			shapes.circle(tp.x, tp.y, 0.1f, 500);
+			System.out.println("(" + tp.x + ", " + tp.y + ")");
+		}
 		shapes.end();
+
+		//logical stuff
+
+		world.step(Gdx.graphics.getDeltaTime(), 6, 2);
 	}
 	
+	public void renderBunches()
+	{
+		for(int i = 0; i < bunches.size(); i++)
+		{
+			for(int ii = 0; ii < bunches.get(i).getArr().size(); ii++)
+			{
+				Particle particle = bunches.get(i).getArr().get(ii);
+				
+				shapes.setColor(Color.BLUE);
+				shapes.circle(particle.getPos().x, particle.getPos().y, 0.25f, 16);
+			}
+		}
+	}
+
 	@Override
 	public void dispose ()
 	{

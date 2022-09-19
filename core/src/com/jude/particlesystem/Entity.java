@@ -1,13 +1,11 @@
 package com.jude.particlesystem;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class Entity
 {
@@ -23,13 +21,16 @@ public class Entity
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
 
-        world.createBody(bodyDef);
-
-        
+        body = world.createBody(bodyDef);
     }
 
     public Body getBody()
     {
         return body;
+    }
+
+    public Vector2 getPos()
+    {
+        return body.getPosition();
     }
 }
