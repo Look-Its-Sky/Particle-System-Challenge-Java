@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Particle extends Entity
 {
-    final float dieAtY = -15/10;
+    final float dieAtY = -50f;
     
     public Particle(float x, float y, World world)
     {
