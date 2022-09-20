@@ -47,6 +47,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 	//actual objects
 	ArrayList<Bunch> bunches;
 
+	//fps stuff
+	FPSCounter fpscount;
+
 	@Override
 	public void create ()
 	{
@@ -69,6 +72,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 
 		//actual objects
 		bunches = new ArrayList<Bunch>();
+
+		//fps counter
+		fpscount = new FPSCounter(0f, 0f);
 	}
 
 	@Override
@@ -88,6 +94,9 @@ public class MyGdxGame extends ApplicationAdapter implements InputProcessor
 			System.out.println("(" + tp.x + ", " + tp.y + ")");
 		}
 		shapes.end();
+
+		//display fps
+		fpscount.render(batch);
 
 		//logic
 		if(Gdx.graphics.getDeltaTime() < 10 && holding)

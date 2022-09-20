@@ -1,6 +1,7 @@
 package com.jude.particlesystem;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,7 @@ public class FPSCounter
     {
         pos = new Vector2(x, y);
         font = new BitmapFont();
+        font.setColor(Color.GREEN);
         lastTimeCounted = TimeUtils.millis();
         
     }
@@ -33,6 +35,11 @@ public class FPSCounter
             sinceChange = 0;
             frameRate = Gdx.graphics.getFramesPerSecond();
         }
+        batch.begin();
         font.draw(batch, (int) Gdx.graphics.getFramesPerSecond() + "FPS", pos.x, pos.y);
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+        System.out.println((int) Gdx.graphics.getFramesPerSecond() + "FPS");
+        batch.end();
     }
 }
